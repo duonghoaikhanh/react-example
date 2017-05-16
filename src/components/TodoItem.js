@@ -4,15 +4,28 @@ import TodoTextInput from './TodoTextInput'
 
 export default class TodoItem extends Component {
 	static propTypes = {
-		todo: PropTypes.object.isRequired
-	}
+		todo: PropTypes.object.isRequired,
+    deleteTodo: PropTypes.func.isRequired,
+    editTodo: PropTypes.func.isRequired,
+    completeTodo: PropTypes.func.isRequired
+	};
 
 	state = {
 		editing: false
-	}
+	};
 
-	handleSave = (id, text) => {		
-	}
+  handleDoubleClick = () => {
+  	this.setState({ editing: true });
+	};
+
+	handleSave = (id, text) => {
+		if (text.length === 0) {
+			this.props.deleteTodo(id);
+		} else {
+			this.props.editTodo(id, text);
+		}
+    this.setState({ editing: false })
+	};
 
 	render() {
 		const {todo} = this.props;
@@ -33,9 +46,10 @@ export default class TodoItem extends Component {
 						className="toggle"
 						type="checkbox"
 						checked={todo.completed}
+						onChange={() => this.props.completeTodo(todo.id)}
 					/>
-					<label>{todo.text}</label>
-					<button className="destroy"></button>
+					<label onDoubleClick={this.handleDoubleClick}>{todo.text}</label>
+					<button className="destroy" onClick={() => this.props.deleteTodo(todo.id)} />
 				</div>
 			);
 		}
@@ -45,8 +59,8 @@ export default class TodoItem extends Component {
 				completed: todo.completed,
 				editing: this.state.editing
 			})}>
-	        	{element}
-	      	</li>
+				{element}
+			</li>
 		);
 	}
 }

@@ -6,7 +6,7 @@ const Header = ({addTodo}) => {
 		if (text.length !== 0) {
 			addTodo(text);
 		}
-	}
+	};
 
 	return (
 		<header className="header">
@@ -14,10 +14,10 @@ const Header = ({addTodo}) => {
 	    	<TodoTextInput newTodo onSave={handleSave} placeholder="What needs to be done?" />
 	    </header>
 	);
-}
+};
 
 Header.propTypes = {
 	addTodo: PropTypes.func.isRequired
-}
+};
 
 export default Header;

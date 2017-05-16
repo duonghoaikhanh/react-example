@@ -8,11 +8,11 @@ export default class TodoTextInput extends Component {
 		placeholder: PropTypes.string,
 		editing: PropTypes.bool,
 		newTodo: PropTypes.bool
-	}
+	};
 
 	state = {
 		text: this.props.text || ''
-	}
+	};
 
 	handleSubmit = e => {
 		const text = e.target.value.trim();
@@ -22,7 +22,7 @@ export default class TodoTextInput extends Component {
 				this.setState({text: ''})
 			}
 		}
-	}
+	};
 
 	handleChange = e => this.setState({ text: e.target.value })
 
@@ -30,7 +30,7 @@ export default class TodoTextInput extends Component {
 		if (!this.props.newTodo) {
 			this.props.onSave(e.target.value);
 		}
-	}
+	};
 
 	render() {
 		return (

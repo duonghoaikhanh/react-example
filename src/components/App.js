@@ -29,18 +29,55 @@ class App extends Component {
             },
             ...this.state.todos
         ];
-        this.setState({todos});
-    }
+        this.setState({ todos });
+    };
+
+    editTodo = (id, text) => {
+        const todos = this.state.todos.map(todo =>
+            todo.id === id ? {...todo, text} : todo
+        );
+      this.setState({ todos });
+    };
+
+    deleteTodo = (id) => {
+      const todos = this.state.todos.filter(todo => todo.id !== id);
+      this.setState({ todos });
+    };
+
+    completeTodo = (id) => {
+      const todos = this.state.todos.map(todo =>
+        todo.id === id ? {...todo, completed: !todo.completed} : todo
+      );
+      this.setState({ todos });
+    };
+
+    completeAll = () => {
+        const areAllMarked = this.state.todos.every(todo => todo.completed);
+        const todos = this.state.todos.map(todo => {
+          return {...todo, completed: !areAllMarked}
+        });
+        this.setState({ todos });
+    };
+
+    clearCompleted = () => {
+        const todos = this.state.todos.filter(todo => todo.completed === false);
+        this.setState({ todos });
+    };
 
     actions = {
-        addTodo: this.addTodo
-    }
+        addTodo: this.addTodo,
+        deleteTodo: this.deleteTodo,
+        editTodo: this.editTodo,
+        completeTodo: this.completeTodo,
+        completeAll: this.completeAll,
+        clearCompleted: this.clearCompleted
+    };
 
     render() {
         return(
             <div>
                 <Header addTodo={this.actions.addTodo} />
-                <MainSection todos={this.state.todos} />
+                <MainSection todos={this.state.todos} actions={this.actions} />
             </div>
         );
     }
